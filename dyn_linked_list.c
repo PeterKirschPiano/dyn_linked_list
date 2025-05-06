@@ -114,17 +114,17 @@ int list_element_add(void *new_key, list_t *list)
     return SUCCESS;
 }
 
-node_t *list_element_find(void *key, size_t key_size, node_t *head_p)
+node_t *list_element_find(void *key, list_t *list_p)
 {
     //list empty
-    if(head_p == NULL)
+    if(list_p->head_p == NULL || list_p->head_p == NULL)
         return NULL;
 
-    node_t *current_node_p = head_p;
+    node_t *current_node_p = list_p->head_p;
 
     while(current_node_p != NULL)
     {
-        if(!memcmp(current_node_p->key, key, key_size))
+        if(!memcmp(current_node_p->key, key, list_p->key_size))
             return current_node_p;
 
         current_node_p = current_node_p->next_node_p;
@@ -181,5 +181,6 @@ void *list_element_pop(list_t *list)
 
     list->n_elements--;
 
+    //after usage free the memory of the variable in main!
     return temp_key;
 }
