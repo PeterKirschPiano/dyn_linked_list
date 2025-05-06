@@ -13,7 +13,7 @@ typedef struct
     node_t  *head_p,
             *rear_p;
 
-    size_t  key_size;
+    size_t  key_size; //number of bytes of 1 element
     int     n_elements;
 }list_t;
 
@@ -29,7 +29,7 @@ int     list_node_destroy(node_t *node, list_t *list);
 //add an element to the rear of the list
 int     list_element_add(void *new_key, list_t *list);
 //return memory adress of an node that holds the key in question
-node_t  *list_element_find(void *key, size_t key_size, node_t *head_p);
+node_t *list_element_find(void *key, list_t *list_p);
 //free the node and update list -> will use destroy node
 //int list_element_destroy(datatype_t element, node_t *head_p, )
 
