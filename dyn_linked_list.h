@@ -28,11 +28,10 @@ int     list_node_destroy(node_t *node, list_t *list);
 //****ELEMENT MANAGMENT****
 //add an element to the rear of the list
 int     list_element_add(void *new_key, list_t *list);
-//return memory adress of an node that holds the key in question
-node_t *list_element_find(void *key, list_t *list_p);
-//free the node and update list -> will use destroy node
-//int list_element_destroy(datatype_t element, node_t *head_p, )
-
+//return memory adress the key you are looking for
+void *list_element_find(void *key, list_t *list_p);
+//return a complete node pointer by searching for its key
+node_t *list_element_find_node(void *key, list_t *list_p); // -> maybe change to void* return to key
 
 //****QUEUE****
 //remove the head, return the value as a pointer and update list
@@ -41,5 +40,9 @@ void    *list_element_dequeue(list_t *list);
 //****STACK****
 //removes the rear, returns the value as a pointer and updates list
 void    *list_element_pop(list_t *list);
+
+//****DATA****
+//gives back an array of pointers to all the keys in the linked list
+void    **list_elements_show(list_t *list);
 
 #endif // DYN_LINKED_LIST_H
