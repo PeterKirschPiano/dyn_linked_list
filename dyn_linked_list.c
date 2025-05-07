@@ -114,7 +114,7 @@ int list_element_add(void *new_key, list_t *list)
     return SUCCESS;
 }
 
-node_t *list_element_find(void *key, list_t *list_p)
+node_t *list_element_find_node(void *key, list_t *list_p)
 {
     //list empty
     if(list_p->head_p == NULL || list_p->head_p == NULL)
@@ -126,6 +126,25 @@ node_t *list_element_find(void *key, list_t *list_p)
     {
         if(!memcmp(current_node_p->key, key, list_p->key_size))
             return current_node_p;
+
+        current_node_p = current_node_p->next_node_p;
+    }
+    //item not found
+    return NULL;
+}
+
+void *list_element_find(void *key, list_t *list_p)
+{
+    //list empty
+    if(list_p->head_p == NULL || list_p->head_p == NULL)
+        return NULL;
+
+    node_t *current_node_p = list_p->head_p;
+
+    while(current_node_p != NULL)
+    {
+        if(!memcmp(current_node_p->key, key, list_p->key_size))
+            return current_node_p->key;
 
         current_node_p = current_node_p->next_node_p;
     }
@@ -151,6 +170,7 @@ void *list_element_dequeue(list_t *list)
     else
         list->head_p = NULL;
 
+    //destroy the old head pointer node
     free(temp_p);
 
     list->n_elements--;
@@ -159,7 +179,7 @@ void *list_element_dequeue(list_t *list)
     return temp_key;
 }
 
-void *list_element_pop(list_t *list)
+void    *list_element_pop(list_t *list)
 {
     if(list->rear_p == NULL)
         return NULL;
@@ -183,4 +203,26 @@ void *list_element_pop(list_t *list)
 
     //after usage free the memory of the variable in main!
     return temp_key;
+}
+
+void    **list_elements_show(list_t *list)
+{
+    if(list == NULL || list->head_p == NULL)
+        return NULL;
+
+    void **data_p = malloc(list->n_elements * sizeof(void*));
+
+    if(data_p == NULL)
+        return NULL;
+
+    node_t *temp_p = list->head_p;
+
+    for(int i = 0; i < list->n_elements; i++)
+    {
+        data_p[i] = temp_p->key;
+        temp_p = temp_p->next_node_p;
+    }
+
+    //after usage free outside of this function
+    return data_p;
 }
