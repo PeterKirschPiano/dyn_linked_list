@@ -7,12 +7,11 @@
 #define SUCCESS 1
 
 //init the list
-void list_initialize(list_t *list, size_t key_size)
+void list_initialize(list_t *list)
 {
     list->head_p = NULL;
     list->rear_p = NULL;
     list->n_elements = 0;
-    list->key_size = key_size;
 }
 
 //allocate memory for a node and initialize it
@@ -114,7 +113,7 @@ int list_element_add(void *new_key, list_t *list)
     return SUCCESS;
 }
 
-node_t *list_element_find_node(void *key, list_t *list_p)
+node_t *list_element_find_node(void *key, size_t key_size, list_t *list_p)
 {
     //list empty
     if(list_p->head_p == NULL || list_p->head_p == NULL)
@@ -124,7 +123,7 @@ node_t *list_element_find_node(void *key, list_t *list_p)
 
     while(current_node_p != NULL)
     {
-        if(!memcmp(current_node_p->key, key, list_p->key_size))
+        if(!memcmp(current_node_p->key, key, key_size))
             return current_node_p;
 
         current_node_p = current_node_p->next_node_p;
@@ -133,17 +132,17 @@ node_t *list_element_find_node(void *key, list_t *list_p)
     return NULL;
 }
 
-void *list_element_find(void *key, list_t *list_p)
+void *list_element_find(void *key, size_t key_size, list_t *list_p)
 {
     //list empty
-    if(list_p->head_p == NULL || list_p->head_p == NULL)
+    if(list_p == NULL || list_p->head_p == NULL)
         return NULL;
 
     node_t *current_node_p = list_p->head_p;
 
     while(current_node_p != NULL)
     {
-        if(!memcmp(current_node_p->key, key, list_p->key_size))
+        if(!memcmp(current_node_p->key, key, key_size))
             return current_node_p->key;
 
         current_node_p = current_node_p->next_node_p;
@@ -207,6 +206,7 @@ void    *list_element_pop(list_t *list)
 
 void    **list_elements_show(list_t *list)
 {
+    //check if list is empty and avoid allocating data
     if(list == NULL || list->head_p == NULL)
         return NULL;
 
